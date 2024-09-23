@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -615,8 +615,32 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {
+          cmd = { 'typescript-language-server', '--stdio' },
+          filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'typescript.tsx' },
+          root_dir = require('lspconfig').util.root_pattern('tsconfig.json', 'jsconfig.json', 'package.json', '.git'),
+          init_options = {
+            hostInfo = 'neovim',
+          },
+          settings = {
+            javascript = {
+              -- Também ajusta opções de JavaScript, se necessário
+              compilerOptions = {
+                checkJs = false,
+              },
+            },
+          },
+        },
+
         --
+        -- eslint = {
+        --   on_attach = function(client, bufnr)
+        --     vim.api.nvim_create_autocmd("BufWritePre", {
+        --       buffer = bufnr,
+        --       command = "EslintFixAll",
+        --     })
+        --   end,
+        -- },
 
         lua_ls = {
           -- cmd = {...},
@@ -660,7 +684,38 @@ require('lazy').setup({
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
+          jdtls = function()
+            require('java').setup {
+              -- Your custom jdtls settings goes here
+            }
+
+            require('lspconfig').jdtls.setup {
+              -- Your custom nvim-java configuration goes here
+            }
+          end,
         },
+        --   sonarlint = function()
+        --   require('sonarlint').setup({
+        --     server = {
+        --        cmd = {
+        --           'sonarlint-language-server',
+        --           -- Ensure that sonarlint-language-server uses stdio channel
+        --           '-stdio',
+        --           '-analyzers',
+        --           -- paths to the analyzers you need, using those for python and java in this example
+        --           vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
+        --           vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
+        --           vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
+        --        }
+        --     },
+        --     filetypes = {
+        --        -- Tested and working
+        --        'python',
+        --        'cpp',
+        --        'java',
+        --     }
+        --  })
+        -- end,
       }
     end,
   },
@@ -703,7 +758,7 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -725,15 +780,15 @@ require('lazy').setup({
           return 'make install_jsregexp'
         end)(),
         dependencies = {
-          -- `friendly-snippets` contains a variety of premade snippets.
+          -- friendly-snippets contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -743,12 +798,17 @@ require('lazy').setup({
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+
+      -- Codeium completion source
+      'Exafunction/codeium.nvim', -- adicionei essa linha
     },
     config = function()
-      -- See `:help cmp`
+      -- See :help cmp
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
+
+      require('codeium').setup {} -- Codeium setup
 
       cmp.setup {
         snippet = {
@@ -759,13 +819,12 @@ require('lazy').setup({
         completion = { completeopt = 'menu,menuone,noinsert' },
 
         -- For an understanding of why these mappings were
-        -- chosen, you will need to read `:help ins-completion`
+        -- chosen, you will need to read :help ins-completion
         --
-        -- No, but seriously. Please read `:help ins-completion`, it is really good!
+        -- No, but seriously. Please read :help ins-completion, it is really good!
+
         mapping = cmp.mapping.preset.insert {
-          -- Select the [n]ext item
           ['<C-n>'] = cmp.mapping.select_next_item(),
-          -- Select the [p]revious item
           ['<C-p>'] = cmp.mapping.select_prev_item(),
 
           -- Scroll the documentation window [b]ack / [f]orward
@@ -810,15 +869,31 @@ require('lazy').setup({
           -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
+
+        -- Ajuste da ordem das fontes para priorizar o Codeium
         sources = {
           {
             name = 'lazydev',
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
           },
+          { name = 'codeium' }, -- Prioriza o Codeium - adicionei essa linha
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+        },
+
+        formatting = {
+          fields = { 'abbr', 'kind', 'menu' },
+          format = function(entry, vim_item)
+            if entry.source.name == 'codeium' then
+              vim_item.kind = '' -- Custom symbol for Codeium
+            end
+            return vim_item
+          end,
+          maxwidth = 50,
+          ellipsis_char = '...',
+          expandable_indicator = true, -- Adiciona o indicador de itens expansíveis
         },
       }
     end,
@@ -888,7 +963,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'java' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -917,19 +992,19 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the

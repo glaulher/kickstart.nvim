@@ -22,7 +22,7 @@ return {
     'jay-babu/mason-nvim-dap.nvim',
 
     -- Add your own debuggers here
-    'leoluz/nvim-dap-go',
+    -- 'leoluz/nvim-dap-go',
   },
   keys = function(_, keys)
     local dap = require 'dap'
@@ -30,9 +30,9 @@ return {
     return {
       -- Basic debugging keymaps, feel free to change to your liking!
       { '<F5>', dap.continue, desc = 'Debug: Start/Continue' },
-      { '<F1>', dap.step_into, desc = 'Debug: Step Into' },
-      { '<F2>', dap.step_over, desc = 'Debug: Step Over' },
-      { '<F3>', dap.step_out, desc = 'Debug: Step Out' },
+      { '<F10>', dap.step_into, desc = 'Debug: Step Into' },
+      { '<F11>', dap.step_over, desc = 'Debug: Step Over' },
+      { '<F12>', dap.step_out, desc = 'Debug: Step Out' },
       { '<leader>b', dap.toggle_breakpoint, desc = 'Debug: Toggle Breakpoint' },
       {
         '<leader>B',
@@ -63,7 +63,8 @@ return {
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
+        --'delve',
+        'jdtls',
       },
     }
 
@@ -90,15 +91,35 @@ return {
     }
 
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-    dap.listeners.before.event_exited['dapui_config'] = dapui.close
+    -- dap.listeners.before.event_terminated['dapui_config'] = dapui.close -- fecha a ui após a execução
+    -- dap.listeners.before.event_exited['dapui_config'] = dapui.close -- fecha a ui após a execução
 
     -- Install golang specific config
-    require('dap-go').setup {
-      delve = {
-        -- On Windows delve must be run attached or it crashes.
-        -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
-        detached = vim.fn.has 'win32' == 0,
+    -- require('dap-go').setup {
+    --   delve = {
+    --     -- On Windows delve must be run attached or it crashes.
+    --     -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
+    --     detached = vim.fn.has 'win32' == 0,
+    --   },
+    -- }
+    dap.configurations.java = {
+      {
+        type = 'java',
+        request = 'launch',
+        name = 'Launch Java Project',
+        -- Função que usa a `jdtls` para detectar a classe principal automaticamente
+        mainClass = function()
+          return require('jdtls').pick_class {
+            prompt = 'Select Main Class',
+            classpath = { 'src' }, -- Inclui a pasta src no classpath
+          }
+        end,
+        -- Detecta automaticamente o nome do projeto com base na raiz do workspace
+        projectName = function()
+          return vim.fn.fnamemodify(vim.fn.getcwd(), ':t') -- Pega o nome da pasta do projeto
+        end,
+        cwd = '${workspaceFolder}', -- Diretório raiz do projeto
+        args = '', -- Argumentos adicionais, se necessário
       },
     }
   end,

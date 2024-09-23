@@ -5,5 +5,5 @@ return {
     -- See `:help ibl`
     main = 'ibl',
     opts = {},
-  },
+  }
 }
