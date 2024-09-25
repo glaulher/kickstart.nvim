@@ -17,38 +17,7 @@ return {
     'AndrewRadev/tagalong.vim', -- renomea o fechamento logo após sair da inserção
   },
 
-  {
-    'HiPhish/rainbow-delimiters.nvim', -- cores brackets
-    config = function()
-      -- This module contains a number of default definitions
-      local rainbow_delimiters = require 'rainbow-delimiters'
-
-      ---@type rainbow_delimiters.config
-      vim.g.rainbow_delimiters = {
-        strategy = {
-          [''] = rainbow_delimiters.strategy['global'],
-          vim = rainbow_delimiters.strategy['local'],
-        },
-        query = {
-          [''] = 'rainbow-delimiters',
-          lua = 'rainbow-blocks',
-        },
-        priority = {
-          [''] = 110,
-          lua = 210,
-        },
-        highlight = {
-          'RainbowDelimiterRed',
-          'RainbowDelimiterYellow',
-          'RainbowDelimiterBlue',
-          'RainbowDelimiterOrange',
-          'RainbowDelimiterGreen',
-          'RainbowDelimiterViolet',
-          'RainbowDelimiterCyan',
-        },
-      }
-    end,
-  },
+  { 'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons' },
 
   {
     'brenoprata10/nvim-highlight-colors', -- cores de destaque ex: '#E5C07B'
@@ -69,53 +38,6 @@ return {
     end,
   },
 
-  {
-    'lukas-reineke/indent-blankline.nvim', -- destaque de indentação colorido
-    main = 'ibl',
-    ---@module "ibl"
-    ---@type ibl.config
-    opts = {
-      indent = {
-        highlight = {
-          'RainbowRed',
-          'RainbowYellow',
-          'RainbowBlue',
-          'RainbowOrange',
-          'RainbowGreen',
-          'RainbowViolet',
-          'RainbowCyan',
-        },
-      },
-    },
-    config = function()
-      -- Define as cores dos grupos de destaque (highlight)
-      local hooks = require 'ibl.hooks'
-      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-        vim.api.nvim_set_hl(0, 'RainbowRed', { fg = '#E06C75' })
-        vim.api.nvim_set_hl(0, 'RainbowYellow', { fg = '#E5C07B' })
-        vim.api.nvim_set_hl(0, 'RainbowBlue', { fg = '#61AFEF' })
-        vim.api.nvim_set_hl(0, 'RainbowOrange', { fg = '#D19A66' })
-        vim.api.nvim_set_hl(0, 'RainbowGreen', { fg = '#98C379' })
-        vim.api.nvim_set_hl(0, 'RainbowViolet', { fg = '#C678DD' })
-        vim.api.nvim_set_hl(0, 'RainbowCyan', { fg = '#56B6C2' })
-      end)
-
-      -- Setup do plugin
-      require('ibl').setup {
-        indent = {
-          highlight = {
-            'RainbowRed',
-            'RainbowYellow',
-            'RainbowBlue',
-            'RainbowOrange',
-            'RainbowGreen',
-            'RainbowViolet',
-            'RainbowCyan',
-          },
-        },
-      }
-    end,
-  },
   {
     'kevinhwang91/nvim-ufo', -- adiciona seta nas dobras
     dependencies = {
