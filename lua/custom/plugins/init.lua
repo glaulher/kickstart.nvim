@@ -4,20 +4,13 @@
 -- See the kickstart.nvim README for more information
 
 return {
-  {
-    'mg979/vim-visual-multi', -- multiplos seletores = ctrl + d no vscode
-  },
+  { 'mg979/vim-visual-multi' }, -- multiplos seletores = ctrl + d no vscode
 
-  {
-    'nvim-java/nvim-java', -- suporte a linguagem java
-    ft = 'java',
-  },
+  { 'nvim-java/nvim-java', ft = 'java' }, -- suporte a linguagem java
 
-  {
-    'AndrewRadev/tagalong.vim', -- renomea o fechamento logo após sair da inserção
-  },
+  { 'AndrewRadev/tagalong.vim' }, -- renomea o fechamento logo após sair da inserção
 
-  { 'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons' },
+  { 'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons' }, -- abas personalizadas
 
   {
     'brenoprata10/nvim-highlight-colors', -- cores de destaque ex: '#E5C07B'
@@ -64,7 +57,7 @@ return {
 
       -- Setup de providers
       require('ufo').setup {
-        provider_selector = function(bufnr, filetype, buftype)
+        provider_selector = function()
           return { 'treesitter', 'indent' }
         end,
         open_fold_hl_timeout = 500, -- Define o tempo (em milissegundos) para exibir o highlight ao abrir uma dobra. Se não for definido, o valor padrão é 400 ms.
