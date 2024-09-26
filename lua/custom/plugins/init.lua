@@ -6,7 +6,7 @@
 return {
   { 'mg979/vim-visual-multi' }, -- multiplos seletores = ctrl + d no vscode
 
-  { 'nvim-java/nvim-java', ft = 'java' }, -- suporte a linguagem java
+  --  { 'nvim-java/nvim-java', ft = 'java' }, -- suporte a linguagem java
 
   { 'AndrewRadev/tagalong.vim' }, -- renomea o fechamento logo após sair da inserção
 
@@ -100,6 +100,27 @@ return {
       }
     end,
   },
+
+  -- require('sonarlint').setup {
+  --   server = {
+  --     cmd = {
+  --       'sonarlint-language-server',
+  --       -- Ensure that sonarlint-language-server uses stdio channel
+  --       '-stdio',
+  --       '-analyzers',
+  --       -- paths to the analyzers you need, using those for python and java in this example
+  --       vim.fn.expand '$MASON/share/sonarlint-analyzers/sonarpython.jar',
+  --       vim.fn.expand '$MASON/share/sonarlint-analyzers/sonarcfamily.jar',
+  --       vim.fn.expand '$MASON/share/sonarlint-analyzers/sonarjava.jar',
+  --     },
+  --   },
+  --   filetypes = {
+  --     -- Tested and working
+  --     'python',
+  --     'cpp',
+  --     'java',
+  --   },
+  -- },
 }
 --  (Código Unicode: U+F51E)
 --  (Código Unicode: U+F668)

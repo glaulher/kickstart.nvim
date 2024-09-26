@@ -459,6 +459,7 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+      'nvim-java/nvim-java',
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -656,6 +657,18 @@ require('lazy').setup({
             },
           },
         },
+        ['sonarlint-language-server'] = {
+          cmd = {
+            'sonarlint-language-server',
+            '-stdio',
+            '-analyzers',
+            vim.fn.expand '$MASON/share/sonarlint-analyzers/sonarpython.jar',
+            vim.fn.expand '$MASON/share/sonarlint-analyzers/sonarcfamily.jar',
+            vim.fn.expand '$MASON/share/sonarlint-analyzers/sonarjava.jar',
+          },
+          filetypes = { 'python', 'cpp', 'java' },
+          root_dir = require('lspconfig').util.root_pattern('.git', 'sonar-project.properties'),
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -694,28 +707,6 @@ require('lazy').setup({
             }
           end,
         },
-        --   sonarlint = function()
-        --   require('sonarlint').setup({
-        --     server = {
-        --        cmd = {
-        --           'sonarlint-language-server',
-        --           -- Ensure that sonarlint-language-server uses stdio channel
-        --           '-stdio',
-        --           '-analyzers',
-        --           -- paths to the analyzers you need, using those for python and java in this example
-        --           vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
-        --           vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
-        --           vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
-        --        }
-        --     },
-        --     filetypes = {
-        --        -- Tested and working
-        --        'python',
-        --        'cpp',
-        --        'java',
-        --     }
-        --  })
-        -- end,
       }
     end,
   },
@@ -834,7 +825,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<C-]>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
