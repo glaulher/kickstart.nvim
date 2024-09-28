@@ -1,7 +1,7 @@
 return {
 
   -- Plugin SonarLint
-  'schrieveslaach/sonarlint.nvim',
+  --  'schrieveslaach/sonarlint.nvim',
   url = 'https://gitlab.com/schrieveslaach/sonarlint.nvim',
   dependencies = {
     'neovim/nvim-lspconfig',
