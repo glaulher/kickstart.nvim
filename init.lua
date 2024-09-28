@@ -799,7 +799,7 @@ require('lazy').setup({
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
 
-      require('codeium').setup {} -- Codeium setup
+      -- require('codeium').setup {} -- Codeium setup
 
       cmp.setup {
         snippet = {
@@ -863,14 +863,15 @@ require('lazy').setup({
 
         -- Ajuste da ordem das fontes para priorizar o Codeium
         sources = {
+          { name = 'luasnip' },
+          { name = 'codeium' }, -- Prioriza o Codeium - adicionei essa linha
+          { name = 'nvim_lsp' },
+
           {
             name = 'lazydev',
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
           },
-          { name = 'codeium' }, -- Prioriza o Codeium - adicionei essa linha
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' },
           { name = 'path' },
         },
 

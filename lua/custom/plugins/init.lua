@@ -100,6 +100,33 @@ return {
       }
     end,
   },
+  {
+    'Exafunction/codeium.nvim',
+    event = 'BufEnter',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'hrsh7th/nvim-cmp',
+    },
+    config = function()
+      require('codeium').setup {
+        debounce = 500, -- Define o tempo de espera antes de sugerir (em milissegundos)
+        -- Suas opções de configuração aqui (se necessário)
+        -- Change '<C-]>' here to any keycode you like.
+        vim.keymap.set('i', '<C-]>', function()
+          return vim.fn['codeium#Accept']()
+        end, { expr = true, silent = true }),
+        vim.keymap.set('i', '<C-;>', function()
+          return vim.fn['codeium#CycleCompletions'](1)
+        end, { expr = true, silent = true }),
+        vim.keymap.set('i', '<C-,>', function()
+          return vim.fn['codeium#CycleCompletions'](-1)
+        end, { expr = true, silent = true }),
+        vim.keymap.set('i', '<C-x>', function()
+          return vim.fn['codeium#Clear']()
+        end, { expr = true, silent = true }),
+      }
+    end,
+  },
 }
 --  (Código Unicode: U+F51E)
 --  (Código Unicode: U+F668)
@@ -125,3 +152,4 @@ return {
 -- zc fecha o bloco de código
 -- command:  set nu ativa numero set nonu desatica
 -- command: set rnu ativa numeros relativos set nornu desativa
+-- com um arquivoq aberto de o comando: vertical diffsplit nome do arquivo  para desativar diffoff
