@@ -100,31 +100,89 @@ return {
       }
     end,
   },
+  -- {
+  --   'Exafunction/codeium.vim',
+  --   event = 'BufEnter',
+  --   dependencies = {
+  --         'nvim-lua/plenary.nvim',
+  --         'hrsh7th/nvim-cmp',
+  --       },
+  -- },
+  -- {
+  --   'Exafunction/codeium.nvim',
+  --   event = 'BufEnter',
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --     'hrsh7th/nvim-cmp',
+  --   },
+  --   config = function()
+  --     require('codeium').setup {
+  --       debounce = 500, -- Define o tempo de espera antes de sugerir (em milissegundos)
+  --       -- Suas opções de configuração aqui (se necessário)
+  --       -- Change '<C-]>' here to any keycode you like.
+  --       vim.keymap.set('i', '<C-]>', function()
+  --         return vim.fn['codeium#Accept']()
+  --       end, { expr = true, silent = true }),
+  --       vim.keymap.set('i', '<C-;>', function()
+  --         return vim.fn['codeium#CycleCompletions'](1)
+  --       end, { expr = true, silent = true }),
+  --       vim.keymap.set('i', '<C-,>', function()
+  --         return vim.fn['codeium#CycleCompletions'](-1)
+  --       end, { expr = true, silent = true }),
+  --       vim.keymap.set('i', '<C-x>', function()
+  --         return vim.fn['codeium#Clear']()
+  --       end, { expr = true, silent = true }),
+  --     }
+  --   end,
+  -- },
   {
-    'Exafunction/codeium.nvim',
-    event = 'BufEnter',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'hrsh7th/nvim-cmp',
-    },
+    'monkoose/neocodeium',
+    event = 'VeryLazy',
     config = function()
-      require('codeium').setup {
-        debounce = 500, -- Define o tempo de espera antes de sugerir (em milissegundos)
-        -- Suas opções de configuração aqui (se necessário)
-        -- Change '<C-]>' here to any keycode you like.
-        vim.keymap.set('i', '<C-]>', function()
-          return vim.fn['codeium#Accept']()
-        end, { expr = true, silent = true }),
-        vim.keymap.set('i', '<C-;>', function()
-          return vim.fn['codeium#CycleCompletions'](1)
-        end, { expr = true, silent = true }),
-        vim.keymap.set('i', '<C-,>', function()
-          return vim.fn['codeium#CycleCompletions'](-1)
-        end, { expr = true, silent = true }),
-        vim.keymap.set('i', '<C-x>', function()
-          return vim.fn['codeium#Clear']()
-        end, { expr = true, silent = true }),
+      local neocodeium = require 'neocodeium'
+
+      -- Configuração do plugin
+      neocodeium.setup {
+        static = {
+          symbols = {
+            status = {
+              [0] = '󰚩 ', -- Enabled
+              [1] = '󱚧 ', -- Disabled Globally
+              [2] = '󱙻 ', -- Disabled for Buffer
+              [3] = '󱙺 ', -- Disabled for Buffer filetype
+              [4] = '󱙺 ', -- Disabled for Buffer with enabled function
+              [5] = '󱚠 ', -- Disabled for Buffer encoding
+            },
+            server_status = {
+              [0] = '󰣺 ', -- Connected
+              [1] = '󰣻 ', -- Connecting
+              [2] = '󰣽 ', -- Disconnected
+            },
+          },
+        },
+
+        -- Atualizando o status do servidor ao receber eventos
+        update = {
+          'User',
+          pattern = { 'NeoCodeiumServer*', 'NeoCodeium*{En,Dis}abled' },
+          callback = function()
+            vim.cmd.redrawstatus()
+          end,
+        },
+
+        -- Provedor de status com base nos símbolos
+        provider = function(self)
+          local symbols = self.symbols
+          local status, server_status = neocodeium.get_status()
+          return symbols.status[status] .. symbols.server_status[server_status]
+        end,
+
+        -- Configuração de destaque (highlight)
+        hl = { fg = 'yellow' },
       }
+
+      -- Mapeamento de chave para aceitar sugestão
+      vim.keymap.set('i', '<A-a>', neocodeium.accept)
     end,
   },
 }

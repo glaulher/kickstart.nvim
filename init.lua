@@ -657,18 +657,6 @@ require('lazy').setup({
             },
           },
         },
-        ['sonarlint-language-server'] = {
-          cmd = {
-            'sonarlint-language-server',
-            '-stdio',
-            '-analyzers',
-            vim.fn.expand '$MASON/share/sonarlint-analyzers/sonarpython.jar',
-            vim.fn.expand '$MASON/share/sonarlint-analyzers/sonarcfamily.jar',
-            vim.fn.expand '$MASON/share/sonarlint-analyzers/sonarjava.jar',
-          },
-          filetypes = { 'python', 'cpp', 'java' },
-          root_dir = require('lspconfig').util.root_pattern('.git', 'sonar-project.properties'),
-        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -864,7 +852,7 @@ require('lazy').setup({
         -- Ajuste da ordem das fontes para priorizar o Codeium
         sources = {
           { name = 'luasnip' },
-          { name = 'codeium' }, -- Prioriza o Codeium - adicionei essa linha
+          -- { name = 'codeium' }, -- Prioriza o Codeium - adicionei essa linha
           { name = 'nvim_lsp' },
 
           {
@@ -875,18 +863,18 @@ require('lazy').setup({
           { name = 'path' },
         },
 
-        formatting = {
-          fields = { 'abbr', 'kind', 'menu' },
-          format = function(entry, vim_item)
-            if entry.source.name == 'codeium' then
-              vim_item.kind = '' -- Custom symbol for Codeium
-            end
-            return vim_item
-          end,
-          maxwidth = 50,
-          ellipsis_char = '...',
-          expandable_indicator = true, -- Adiciona o indicador de itens expansíveis
-        },
+        -- formatting = {
+        --   fields = { 'abbr', 'kind', 'menu' },
+        --   format = function(entry, vim_item)
+        --     if entry.source.name == 'codeium' then
+        --       vim_item.kind = '' -- Custom symbol for Codeium
+        --     end
+        --     return vim_item
+        --   end,
+        --   maxwidth = 50,
+        --   ellipsis_char = '...',
+        --   expandable_indicator = true, -- Adiciona o indicador de itens expansíveis
+        -- },
       }
     end,
   },
