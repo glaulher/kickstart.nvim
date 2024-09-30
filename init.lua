@@ -779,7 +779,7 @@ require('lazy').setup({
       'hrsh7th/cmp-path',
 
       -- Codeium completion source
-      'Exafunction/codeium.nvim', -- adicionei essa linha
+      -- 'Exafunction/codeium.nvim', -- adicionei essa linha
     },
     config = function()
       -- See :help cmp
@@ -813,7 +813,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-]>'] = cmp.mapping.confirm { select = true },
+          ['<A-a>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines

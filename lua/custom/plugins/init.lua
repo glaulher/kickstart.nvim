@@ -1,4 +1,4 @@
--- You can add your own plugins here or in other files in this directory!
+--- You can add your own plugins here or in other files in this directory!
 --  I promise not to create any merge conflicts in this directory :)
 --
 -- See the kickstart.nvim README for more information
@@ -189,12 +189,14 @@ return {
 --  (Código Unicode: U+F51E)
 --  (Código Unicode: U+F668)
 --  (Código Unicode: U+EA8B)
+--
 -- Para algo parecido com </>:
 
 --  (Código Unicode: U+F121)
 --  (Código Unicode: U+EB84)
 -- ﰩ (Código Unicode: U+F429)
--- leader + c + a = ctrl +.
+--
+-- -- leader + c + a = ctrl +.
 -- ctrl + h j k l para mover entre as janelas
 -- neotree . para root e backspace para ir a um nível acima
 -- ctrl + pgdn e pgup ou gt e gT para ir entre as abas

@@ -19,4 +19,3 @@ keymap('i', '<A-Right>', '<C-\\><C-N><C-w>l', opts)
 
 -- Retorna uma tabela vazia para evitar erro
 return {}
-
