@@ -4,9 +4,6 @@
 -- See the kickstart.nvim README for more information
 
 return {
-  { 'mg979/vim-visual-multi' }, -- multiplos seletores = ctrl + d no vscode
-
-  --  { 'nvim-java/nvim-java', ft = 'java' }, -- suporte a linguagem java
 
   { 'AndrewRadev/tagalong.vim' }, -- renomea o fechamento logo após sair da inserção
 
@@ -28,6 +25,14 @@ return {
           format = require('nvim-highlight-colors').format,
         },
       }
+    end,
+  },
+
+  {
+    'max397574/colortils.nvim', -- adiciona pick color
+    cmd = 'Colortils',
+    config = function()
+      require('colortils').setup()
     end,
   },
 
@@ -108,35 +113,8 @@ return {
   --         'hrsh7th/nvim-cmp',
   --       },
   -- },
-  -- {
-  --   'Exafunction/codeium.nvim',
-  --   event = 'BufEnter',
-  --   dependencies = {
-  --     'nvim-lua/plenary.nvim',
-  --     'hrsh7th/nvim-cmp',
-  --   },
-  --   config = function()
-  --     require('codeium').setup {
-  --       debounce = 500, -- Define o tempo de espera antes de sugerir (em milissegundos)
-  --       -- Suas opções de configuração aqui (se necessário)
-  --       -- Change '<C-]>' here to any keycode you like.
-  --       vim.keymap.set('i', '<C-]>', function()
-  --         return vim.fn['codeium#Accept']()
-  --       end, { expr = true, silent = true }),
-  --       vim.keymap.set('i', '<C-;>', function()
-  --         return vim.fn['codeium#CycleCompletions'](1)
-  --       end, { expr = true, silent = true }),
-  --       vim.keymap.set('i', '<C-,>', function()
-  --         return vim.fn['codeium#CycleCompletions'](-1)
-  --       end, { expr = true, silent = true }),
-  --       vim.keymap.set('i', '<C-x>', function()
-  --         return vim.fn['codeium#Clear']()
-  --       end, { expr = true, silent = true }),
-  --     }
-  --   end,
-  -- },
   {
-    'monkoose/neocodeium',
+    'monkoose/neocodeium', -- plugin ia neocodeium
     event = 'VeryLazy',
     config = function()
       local neocodeium = require 'neocodeium'
@@ -185,6 +163,31 @@ return {
       vim.keymap.set('i', '<A-a>', neocodeium.accept)
     end,
   },
+  {
+    'MeanderingProgrammer/render-markdown.nvim', -- markdown preview
+    opts = {},
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+  },
+  {
+    'smoka7/multicursors.nvim', -- multiplos seletores = ctrl + d no vscode
+
+    event = 'VeryLazy',
+    dependencies = {
+      'nvimtools/hydra.nvim',
+    },
+    opts = {},
+    cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
+    keys = {
+      {
+        mode = { 'v', 'n' },
+        '<Leader>m',
+        '<cmd>MCstart<cr>',
+        desc = 'Create a selection for selected text or word under the cursor',
+      },
+    },
+  },
 }
 --  (Código Unicode: U+F51E)
 --  (Código Unicode: U+F668)
@@ -213,3 +216,4 @@ return {
 -- command:  set nu ativa numero set nonu desatica
 -- command: set rnu ativa numeros relativos set nornu desativa
 -- com um arquivoq aberto de o comando: vertical diffsplit nome do arquivo  para desativar diffoff
+-- comando Colortils abre seletor de cores e alt + enter seleciona a cor
