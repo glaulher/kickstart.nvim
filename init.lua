@@ -98,7 +98,7 @@ vim.g.have_nerd_font = true
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
-require 'options'
+require 'core/options'
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -106,16 +106,16 @@ require 'options'
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 
-require 'keymaps'
+require 'core/keymaps'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
-require 'autocommands'
+require 'core/autocommands'
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 
-require 'lazy-bootstrap'
+require 'core/lazy-bootstrap'
 
 -- [[ Configure and install plugins ]]
 --
@@ -128,7 +128,7 @@ require 'lazy-bootstrap'
 --    :Lazy update
 --
 
-require 'lazy-plugins'
+require 'core/lazy-plugins'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
