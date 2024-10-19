@@ -5,12 +5,15 @@
 
 return {
 
-  { 'AndrewRadev/tagalong.vim' }, -- renomea o fechamento logo após sair da inserção
+  { 'AndrewRadev/tagalong.vim', event = 'VeryLazy' }, -- renomea o fechamento logo após sair da inserção
 
   { 'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons' }, -- abas personalizadas
 
+  { 'xiyaowong/transparent.nvim' },
+
   {
     'brenoprata10/nvim-highlight-colors', -- cores de destaque ex: '#E5C07B'
+    event = 'VeryLazy',
     config = function()
       -- Configura o nvim-highlight-colors
       require('nvim-highlight-colors').setup {}
@@ -30,6 +33,7 @@ return {
 
   {
     'max397574/colortils.nvim', -- adiciona pick color
+    event = 'VeryLazy',
     cmd = 'Colortils',
     config = function()
       require('colortils').setup()
@@ -165,28 +169,54 @@ return {
   },
   {
     'MeanderingProgrammer/render-markdown.nvim', -- markdown preview
+    event = 'VeryLazy',
     opts = {},
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
   },
-  {
-    'smoka7/multicursors.nvim', -- multiplos seletores = ctrl + d no vscode
 
+  {
+    'glaulher/maven.nvim',
     event = 'VeryLazy',
-    dependencies = {
-      'nvimtools/hydra.nvim',
-    },
-    opts = {},
-    cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
-    keys = {
-      {
-        mode = { 'v', 'n' },
-        '<Leader>m',
-        '<cmd>MCstart<cr>',
-        desc = 'Create a selection for selected text or word under the cursor',
-      },
-    },
+    branch = 'refactor',
+    cmd = { 'Maven', 'MavenExec' },
+    dependencies = 'nvim-lua/plenary.nvim',
+    config = function()
+      require('maven').setup {
+        executable = 'mvn',
+        -- maven_central_url = 'https://mvnrepository.com/repos/central', if nil https://central.sonatype.com/
+      }
+    end,
+  },
+
+  {
+    'mg979/vim-visual-multi',
+    branch = 'master',
+    init = function()
+      -- Hack around issue with conflicting insert mode <BS> mapping
+      -- between this plugin and nvim-autopairs
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'visual_multi_start',
+        callback = function()
+          pcall(vim.keymap.del, 'i', '<BS>', { buffer = 0 })
+        end,
+      })
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'visual_multi_exit',
+        callback = function()
+          require('nvim-autopairs').force_attach()
+        end,
+      })
+      -- Desabilita os mapeamentos padrão do vim-visual-multi
+      vim.g.VM_default_mappings = 0
+
+      -- Define novos mapeamentos personalizados
+      vim.g.VM_maps = {
+        ['Goto Prev'] = '<S-h>', -- Shift + h para ir para o anterior
+        ['Goto Next'] = '<S-l>', -- Shift + l para ir para o próximo
+      }
+    end,
   },
 }
 --  (Código Unicode: U+F51E)
