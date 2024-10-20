@@ -44,6 +44,48 @@ return {
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
 
+      local kind_icons = {
+        Array = ' ',
+        Boolean = '󰨙 ',
+        Class = ' ',
+        Codeium = '󰘦 ',
+        Color = ' ',
+        Control = ' ',
+        Collapsed = ' ',
+        Constant = '󰏿 ',
+        Constructor = ' ',
+        Copilot = ' ',
+        Enum = ' ',
+        EnumMember = ' ',
+        Event = ' ',
+        Field = ' ',
+        File = ' ',
+        Folder = ' ',
+        Function = '󰊕 ',
+        Interface = ' ',
+        Key = ' ',
+        Keyword = ' ',
+        Method = '󰊕 ',
+        Module = ' ',
+        Namespace = '󰦮 ',
+        Null = ' ',
+        Number = '󰎠 ',
+        Object = ' ',
+        Operator = ' ',
+        Package = ' ',
+        Property = ' ',
+        Reference = ' ',
+        Snippet = ' ',
+        String = ' ',
+        Struct = '󰆼 ',
+        TabNine = '󰏚 ',
+        Text = ' ',
+        TypeParameter = ' ',
+        Unit = ' ',
+        Value = ' ',
+        Variable = '󰀫 ',
+      }
+
       -- require('codeium').setup {} -- Codeium setup
 
       cmp.setup {
@@ -52,6 +94,16 @@ return {
             luasnip.lsp_expand(args.body)
           end,
         },
+
+        formatting = {
+          fields = { 'abbr', 'kind', 'menu' }, -- Campos necessários
+          expandable_indicator = true, -- Indicador expandível
+          format = function(entry, vim_item)
+            vim_item.kind = (kind_icons[vim_item.kind] or 'foo') .. vim_item.kind
+            return require('nvim-highlight-colors').format(entry, vim_item)
+          end,
+        },
+
         completion = { completeopt = 'menu,menuone,noinsert' },
 
         -- For an understanding of why these mappings were
@@ -119,19 +171,6 @@ return {
           },
           { name = 'path' },
         },
-
-        -- formatting = {
-        --   fields = { 'abbr', 'kind', 'menu' },
-        --   format = function(entry, vim_item)
-        --     if entry.source.name == 'codeium' then
-        --       vim_item.kind = '' -- Custom symbol for Codeium
-        --     end
-        --     return vim_item
-        --   end,
-        --   maxwidth = 50,
-        --   ellipsis_char = '...',
-        --   expandable_indicator = true, -- Adiciona o indicador de itens expansíveis
-        -- },
       }
     end,
   },

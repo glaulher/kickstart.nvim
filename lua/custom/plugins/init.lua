@@ -17,17 +17,6 @@ return {
     config = function()
       -- Configura o nvim-highlight-colors
       require('nvim-highlight-colors').setup {}
-
-      -- Integração com o nvim-cmp
-      local cmp = require 'cmp'
-      cmp.setup {
-        -- Outras configurações do cmp
-        formatting = {
-          fields = { 'abbr', 'kind', 'menu' }, -- Campos necessários
-          expandable_indicator = true, -- Indicador expandível
-          format = require('nvim-highlight-colors').format,
-        },
-      }
     end,
   },
 
@@ -216,6 +205,19 @@ return {
         ['Goto Prev'] = '<S-h>', -- Shift + h para ir para o anterior
         ['Goto Next'] = '<S-l>', -- Shift + l para ir para o próximo
       }
+    end,
+  },
+  {
+    'javiorfo/nvim-springtime',
+    lazy = true,
+    cmd = { 'Springtime', 'SpringtimeUpdate' },
+    dependencies = {
+      'javiorfo/nvim-popcorn',
+      'javiorfo/nvim-spinetta',
+      'hrsh7th/nvim-cmp',
+    },
+    build = function()
+      require('springtime.core').update()
     end,
   },
 }
