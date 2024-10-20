@@ -95,6 +95,13 @@ return {
           end,
         },
 
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+          border = 'double',
+          winhighlight = 'Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:Visual,Search:None',
+        },
+
         formatting = {
           fields = { 'abbr', 'kind', 'menu' }, -- Campos necessários
           expandable_indicator = true, -- Indicador expandível
