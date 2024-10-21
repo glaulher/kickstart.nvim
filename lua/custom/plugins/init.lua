@@ -3,6 +3,9 @@
 --
 -- See the kickstart.nvim README for more information
 
+require 'custom.keymappings'
+require 'custom.options'
+
 return {
 
   { 'AndrewRadev/tagalong.vim', event = 'VeryLazy' }, -- renomea o fechamento logo após sair da inserção
@@ -12,16 +15,16 @@ return {
   { 'xiyaowong/transparent.nvim' },
 
   {
-    'brenoprata10/nvim-highlight-colors', -- cores de destaque ex: '#E5C07B'
+    'brenoprata10/nvim-highlight-colors', -- color highlight ex: '#E5C07B'
     event = 'VeryLazy',
     config = function()
-      -- Configura o nvim-highlight-colors
+      -- Configure nvim-highlight-colors
       require('nvim-highlight-colors').setup {}
     end,
   },
 
   {
-    'max397574/colortils.nvim', -- adiciona pick color
+    'max397574/colortils.nvim', -- add pick color
     event = 'VeryLazy',
     cmd = 'Colortils',
     config = function()
@@ -30,73 +33,14 @@ return {
   },
 
   {
-    'kevinhwang91/nvim-ufo', -- adiciona seta nas dobras
+    'kevinhwang91/nvim-ufo', -- add arrows to folds
     dependencies = {
-      'kevinhwang91/promise-async', -- Adicionando o promise-async corretamente
+      'kevinhwang91/promise-async', -- Add promise-async
     },
-    opts = {
-      filetype_exclude = { 'help', 'alpha', 'dashboard', 'neo-tree', 'Trouble', 'lazy', 'mason' },
-    },
-    config = function(_, opts)
-      vim.api.nvim_create_autocmd('FileType', {
-        group = vim.api.nvim_create_augroup('local_detach_ufo', { clear = true }),
-        pattern = opts.filetype_exclude,
-        callback = function()
-          require('ufo').detach()
-        end,
-      })
-      vim.opt.foldcolumn = '1' -- '0' is not bad
-      vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-      vim.opt.foldenable = true
-      vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-      vim.opt.foldlevelstart = 99
-
-      require('ufo').setup(opts)
-
-      -- Setup de providers
-      require('ufo').setup {
-        provider_selector = function()
-          return { 'treesitter', 'indent' }
-        end,
-        open_fold_hl_timeout = 500, -- Define o tempo (em milissegundos) para exibir o highlight ao abrir uma dobra. Se não for definido, o valor padrão é 400 ms.
-        close_fold_kinds_for_ft = {}, -- Configuração padrão, ajuste conforme necessário
-        enable_get_fold_virt_text = true, -- Exibe texto virtual nas dobras
-        preview = { -- Exibe a prévia do conteúdo dobrado
-          win_config = {
-            border = 'rounded',
-            winblend = 10,
-          },
-        },
-      }
-      -- Mapeamento da tecla K para pré-visualização de dobras
-      vim.keymap.set('n', 'K', function()
-        local winid = require('ufo').peekFoldedLinesUnderCursor()
-        if not winid then
-          -- Fallback para o hover do LSP se não houver dobra
-          vim.lsp.buf.hover()
-        end
-      end)
-    end,
   },
+
   {
-    'luukvbaal/statuscol.nvim', -- esconde o numero de dobras ficando apenas as setas
-    opts = function()
-      local builtin = require 'statuscol.builtin'
-      return {
-        setopt = true,
-        -- override the default list of segments with:
-        -- number-less fold indicator, then signs, then line number & separator
-        segments = {
-          { text = { builtin.foldfunc }, click = 'v:lua.ScFa' },
-          { text = { '%s' }, click = 'v:lua.ScSa' },
-          {
-            text = { builtin.lnumfunc, ' ' },
-            condition = { true, builtin.not_empty },
-            click = 'v:lua.ScLa',
-          },
-        },
-      }
-    end,
+    'luukvbaal/statuscol.nvim', -- hides the number of folds leaving only the arrows
   },
   -- {
   --   'Exafunction/codeium.vim',
@@ -109,52 +53,6 @@ return {
   {
     'monkoose/neocodeium', -- plugin ia neocodeium
     event = 'VeryLazy',
-    config = function()
-      local neocodeium = require 'neocodeium'
-
-      -- Configuração do plugin
-      neocodeium.setup {
-        static = {
-          symbols = {
-            status = {
-              [0] = '󰚩 ', -- Enabled
-              [1] = '󱚧 ', -- Disabled Globally
-              [2] = '󱙻 ', -- Disabled for Buffer
-              [3] = '󱙺 ', -- Disabled for Buffer filetype
-              [4] = '󱙺 ', -- Disabled for Buffer with enabled function
-              [5] = '󱚠 ', -- Disabled for Buffer encoding
-            },
-            server_status = {
-              [0] = '󰣺 ', -- Connected
-              [1] = '󰣻 ', -- Connecting
-              [2] = '󰣽 ', -- Disconnected
-            },
-          },
-        },
-
-        -- Atualizando o status do servidor ao receber eventos
-        update = {
-          'User',
-          pattern = { 'NeoCodeiumServer*', 'NeoCodeium*{En,Dis}abled' },
-          callback = function()
-            vim.cmd.redrawstatus()
-          end,
-        },
-
-        -- Provedor de status com base nos símbolos
-        provider = function(self)
-          local symbols = self.symbols
-          local status, server_status = neocodeium.get_status()
-          return symbols.status[status] .. symbols.server_status[server_status]
-        end,
-
-        -- Configuração de destaque (highlight)
-        hl = { fg = 'yellow' },
-      }
-
-      -- Mapeamento de chave para aceitar sugestão
-      vim.keymap.set('i', '<A-a>', neocodeium.accept)
-    end,
   },
   {
     'MeanderingProgrammer/render-markdown.nvim', -- markdown preview
@@ -182,30 +80,6 @@ return {
   {
     'mg979/vim-visual-multi',
     branch = 'master',
-    init = function()
-      -- Hack around issue with conflicting insert mode <BS> mapping
-      -- between this plugin and nvim-autopairs
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'visual_multi_start',
-        callback = function()
-          pcall(vim.keymap.del, 'i', '<BS>', { buffer = 0 })
-        end,
-      })
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'visual_multi_exit',
-        callback = function()
-          require('nvim-autopairs').force_attach()
-        end,
-      })
-      -- Desabilita os mapeamentos padrão do vim-visual-multi
-      vim.g.VM_default_mappings = 0
-
-      -- Define novos mapeamentos personalizados
-      vim.g.VM_maps = {
-        ['Goto Prev'] = '<S-h>', -- Shift + h para ir para o anterior
-        ['Goto Next'] = '<S-l>', -- Shift + l para ir para o próximo
-      }
-    end,
   },
   {
     'javiorfo/nvim-springtime',
