@@ -65,7 +65,7 @@ return {
         Interface = ' ',
         Key = ' ',
         Keyword = ' ',
-        Method = '󰊕 ',
+        Method = '󰆧 ',
         Module = ' ',
         Namespace = '󰦮 ',
         Null = ' ',
@@ -75,11 +75,11 @@ return {
         Package = ' ',
         Property = ' ',
         Reference = ' ',
-        Snippet = ' ',
+        Snippet = ' ',
         String = ' ',
         Struct = '󰆼 ',
         TabNine = '󰏚 ',
-        Text = ' ',
+        Text = ' ',
         TypeParameter = ' ',
         Unit = ' ',
         Value = ' ',
@@ -106,7 +106,7 @@ return {
           fields = { 'abbr', 'kind', 'menu' }, -- Campos necessários
           expandable_indicator = true, -- Indicador expandível
           format = function(entry, vim_item)
-            vim_item.kind = (kind_icons[vim_item.kind] or 'foo') .. vim_item.kind
+            vim_item.kind = (kind_icons[vim_item.kind] or '󰅲 ') .. vim_item.kind
             return require('nvim-highlight-colors').format(entry, vim_item)
           end,
         },
