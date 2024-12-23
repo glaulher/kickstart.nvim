@@ -18,7 +18,7 @@ return {
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
-      { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+      { 'williamboman/mason.nvim' }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       'nvim-java/nvim-java',
@@ -239,19 +239,33 @@ return {
       --    :Mason
       --
       --  You can press `g?` for help in this menu.
-      require('mason').setup()
+      -- require('mason').setup()
+      ---@diagnostic disable-next-line: missing-fields
+      require('mason').setup {
+
+        check_outdated_packages_on_open = false,
+        ui = {
+          icons = {
+            package_installed = '✓',
+            package_pending = '➜',
+            package_uninstalled = '✗',
+          },
+        },
+      }
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'sonarlint-language-server', -- Used to format java
-        'prettier', -- Used to format javascript
-        'typescript-language-server', -- Server to typescript and javascript
+        --'sonarlint-language-server', -- Used to format java
+        -- 'prettier', -- Used to format javascript
+        -- 'typescript-language-server', -- Server to typescript and javascript
+        -- 'jdtls', -- Server to java
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      ---@diagnostic disable-next-line: missing-fields
       require('mason-lspconfig').setup {
         handlers = {
           function(server_name)
