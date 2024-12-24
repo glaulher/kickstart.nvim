@@ -18,7 +18,8 @@ return {
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
-      { 'williamboman/mason.nvim' }, -- NOTE: Must be loaded before dependants
+      { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       'nvim-java/nvim-java',
@@ -258,10 +259,10 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        --'sonarlint-language-server', -- Used to format java
-        -- 'prettier', -- Used to format javascript
-        -- 'typescript-language-server', -- Server to typescript and javascript
-        -- 'jdtls', -- Server to java
+        'sonarlint-language-server', -- Used to format java
+        'prettier', -- Used to format javascript
+        'typescript-language-server', -- Server to typescript and javascript
+        'jdtls', -- Server to java
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
