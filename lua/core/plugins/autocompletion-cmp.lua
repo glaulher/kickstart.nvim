@@ -35,6 +35,7 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
 
+      'tailwind-tools',
       -- Codeium completion source
       -- 'Exafunction/codeium.nvim', -- adicionei essa linha
     },
@@ -103,11 +104,20 @@ return {
         },
 
         formatting = {
-          fields = { 'abbr', 'kind', 'menu' }, -- Campos necessários
-          expandable_indicator = true, -- Indicador expandível
-          format = function(entry, vim_item)
-            vim_item.kind = (kind_icons[vim_item.kind] or '󰅲 ') .. vim_item.kind
-            return require('nvim-highlight-colors').format(entry, vim_item)
+          fields = { 'abbr', 'kind', 'menu' },
+          expandable_indicator = true,
+
+          format = function(entry, item)
+            local color_item = require('nvim-highlight-colors').format(entry, { kind = item.kind }) -- colorize suggested
+
+            -- Add icon type
+            item.kind = string.format('%s %s', kind_icons[item.kind] or '󰅲', item.kind)
+
+            -- Apply color by nvim-highlight-colors in side ícon
+            if color_item.abbr_hl_group then
+              item.kind_hl_group = color_item.abbr_hl_group
+            end
+            return item
           end,
         },
 
