@@ -1,7 +1,7 @@
 return {
   { -- Autoformat
     'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
+    event = { 'BufWritePre', 'BufNewFile' },
     cmd = { 'ConformInfo' },
     keys = {
       {
@@ -37,14 +37,17 @@ return {
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { 'prettierd', 'prettier', stop_after_first = true },
-        typescript = { 'prettierd', 'prettier', stop_after_first = true },
-        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-        json = { 'prettierd', 'prettier', stop_after_first = true },
-        css = { 'prettierd', 'prettier', stop_after_first = true },
-        scss = { 'prettierd', 'prettier', stop_after_first = true },
-        less = { 'prettierd', 'prettier', stop_after_first = true },
+        javascript = { 'prettier', 'prettierd', stop_after_first = true },
+        typescript = { 'prettier', 'prettierd', stop_after_first = true },
+        javascriptreact = { 'prettier', 'prettierd', stop_after_first = true },
+        typescriptreact = { 'prettier', 'prettierd', stop_after_first = true },
+        svelte = { 'prettier', 'prettierd', stop_after_first = true },
+        css = { 'prettier', 'prettierd', stop_after_first = true },
+        html = { 'prettier', 'prettierd', stop_after_first = true },
+        json = { 'prettier', 'prettierd', stop_after_first = true },
+        yaml = { 'prettier', 'prettierd', stop_after_first = true },
+        markdown = { 'prettier', 'prettierd', stop_after_first = true },
+        graphql = { 'prettier', 'prettierd', stop_after_first = true },
 
         java = { 'sonarlint' },
       },

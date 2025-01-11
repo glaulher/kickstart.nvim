@@ -1,12 +1,3 @@
--- local lint_on_save = vim.api.nvim_create_augroup('LintOnSave', { clear = true })
--- vim.api.nvim_create_autocmd('BufWritePost', {
---   group = lint_on_save,
---   pattern = { '*.js', '*.jsx', '*.ts', '*.tsx' },
---   callback = function()
---     require('lint').try_lint()
---   end,
--- })
-
 return {
 
   { -- Linting
@@ -16,10 +7,10 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
-        javascript = { 'eslint_d' },
-        typescript = { 'eslint_d' },
-        javascriptreact = { 'eslint_d' },
-        typescriptreact = { 'eslint_d' },
+        -- javascript = { 'eslint_d' },
+        -- typescript = { 'eslint_d' },
+        -- javascriptreact = { 'eslint_d' },
+        -- typescriptreact = { 'eslint_d' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,

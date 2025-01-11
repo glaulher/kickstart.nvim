@@ -190,7 +190,23 @@ return {
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
+
+        eslint = {
+          capabilities = capabilities,
+          flags = { debounce_text_changes = 500 },
+          root_dir = require('lspconfig').util.root_pattern('package.json', 'package-lock.json'),
+          filetypes = {
+            'typescript',
+            'typescriptreact',
+            'typescript.tsx',
+            'javascript',
+            'javascriptreact',
+            'javascript.jsx',
+          },
+          single_file_support = true,
+        },
+
+        --  But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {
           cmd = { 'typescript-language-server', '--stdio' },
           filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'typescript.tsx' },
@@ -207,16 +223,6 @@ return {
             },
           },
         },
-
-        --
-        -- eslint = {
-        --   on_attach = function(client, bufnr)
-        --     vim.api.nvim_create_autocmd("BufWritePre", {
-        --       buffer = bufnr,
-        --       command = "EslintFixAll",
-        --     })
-        --   end,
-        -- },
 
         lua_ls = {
           -- cmd = { ... },
