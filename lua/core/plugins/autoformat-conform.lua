@@ -37,10 +37,15 @@ return {
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { 'prettier', 'prettierd', stop_after_first = true },
-        typescript = { 'prettier', 'prettierd', stop_after_first = true },
-        javascriptreact = { 'prettier', 'prettierd', stop_after_first = true },
-        typescriptreact = { 'prettier', 'prettierd', stop_after_first = true },
+
+        -- Commenting out Prettier for JavaScript and TypeScript as ESLint's configuration already handles formatting for these file types.
+        -- Configuring Prettier in both places can lead to conflicts and unexpected formatting behavior.
+        -- By removing these lines, we ensure that ESLint's formatting rules take precedence.
+
+        -- javascript = { 'prettier', 'prettierd', stop_after_first = true },
+        -- typescript = { 'prettier', 'prettierd', stop_after_first = true },
+        -- javascriptreact = { 'prettier', 'prettierd', stop_after_first = true },
+        -- typescriptreact = { 'prettier', 'prettierd', stop_after_first = true },
         svelte = { 'prettier', 'prettierd', stop_after_first = true },
         css = { 'prettier', 'prettierd', stop_after_first = true },
         html = { 'prettier', 'prettierd', stop_after_first = true },
