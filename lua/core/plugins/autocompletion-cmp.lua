@@ -35,7 +35,7 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
 
-      'tailwind-tools',
+      'luckasRanarison/tailwind-tools.nvim',
       -- Codeium completion source
       -- 'Exafunction/codeium.nvim', -- adicionei essa linha
     },
