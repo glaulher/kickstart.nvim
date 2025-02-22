@@ -8,7 +8,12 @@ require 'custom.options'
 
 return {
 
-  { 'AndrewRadev/tagalong.vim', event = 'VeryLazy' }, -- renomea o fechamento logo após sair da inserção
+  {
+    'windwp/nvim-ts-autotag',
+    config = function()
+      require('nvim-ts-autotag').setup()
+    end,
+  }, -- renomea o fechamento logo após sair da inserção
 
   { 'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons' }, -- abas personalizadas
 
@@ -96,6 +101,16 @@ return {
     build = function()
       require('springtime.core').update()
     end,
+  },
+  {
+    'chikko80/error-lens.nvim',
+    event = 'BufRead',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+    },
+    opts = {
+      -- your options go here
+    },
   },
 }
 --  (Código Unicode: U+F51E)
