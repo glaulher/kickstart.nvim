@@ -141,3 +141,8 @@ return {
 -- command: set rnu ativa numeros relativos set nornu desativa
 -- com um arquivoq aberto de o comando: vertical diffsplit nome do arquivo  para desativar diffoff
 -- comando Colortils abre seletor de cores e alt + enter seleciona a cor
+-- saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+-- sd'   - [S]urround [D]elete [']quotes
+-- sr)'  - [S]urround [R]eplace [)] [']
+-- saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+-- o - para dar espaço em modo normal

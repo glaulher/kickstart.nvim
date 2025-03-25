@@ -34,6 +34,7 @@ return {
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
 
       'luckasRanarison/tailwind-tools.nvim',
       -- Codeium completion source
@@ -177,16 +178,18 @@ return {
 
         -- Ajuste da ordem das fontes para priorizar o Codeium
         sources = {
-          { name = 'luasnip' },
-          -- { name = 'codeium' }, -- Prioriza o Codeium - adicionei essa linha
-          { name = 'nvim_lsp' },
-
           {
             name = 'lazydev',
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
           },
+          { name = 'luasnip' },
+          -- { name = 'codeium' }, -- Prioriza o Codeium - adicionei essa linha
+          { name = 'nvim_lsp' },
+
           { name = 'path' },
+
+          { name = 'nvim_lsp_signature_help' },
         },
       }
     end,
