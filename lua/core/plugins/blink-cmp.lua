@@ -111,7 +111,7 @@ return {
                   }
 
                   -- default kind icon
-                  local icon = kind_icons[ctx.kind_icon] or ctx.kind_icon
+                  local icon = kind_icons[ctx.kind] or ctx.kind
                   -- if LSP source, check for color derived from documentation
                   if ctx.item.source_name == 'LSP' then
                     local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
