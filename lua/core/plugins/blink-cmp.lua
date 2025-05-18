@@ -59,14 +59,13 @@ return {
 
           border = 'single',
           draw = {
+            columns = {
+
+              { 'label', 'label_description', gap = 1 },
+              { 'kind_icon', gap = 1, 'kind' },
+            },
             components = {
 
-              label = {
-                text = function(ctx)
-                  local source = ctx.item.source_name or 'Unknown'
-                  return string.format('%s - %s', ctx.label, source)
-                end,
-              },
               kind_icon = {
                 text = function(ctx)
                   local kind_icons = {
@@ -112,8 +111,7 @@ return {
                   }
 
                   -- default kind icon
-                  local icon = kind_icons[ctx.kind] or ctx.kind
-
+                  local icon = kind_icons[ctx.kind_icon] or ctx.kind_icon
                   -- if LSP source, check for color derived from documentation
                   if ctx.item.source_name == 'LSP' then
                     local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
@@ -121,7 +119,7 @@ return {
                       icon = color_item.abbr
                     end
                   end
-                  return icon .. ctx.icon_gap
+                  return icon
                 end,
                 highlight = function(ctx)
                   -- default highlight group
