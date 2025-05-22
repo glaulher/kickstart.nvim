@@ -21,7 +21,7 @@ return {
         },
       },
       filetypes = {
-        'python',
+        --  'python',
         'cpp',
         'java',
       },
