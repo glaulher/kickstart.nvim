@@ -23,6 +23,8 @@ return {
 
     -- Add your own debuggers here
     --    'leoluz/nvim-dap-go',
+    -- Python dap
+    'mfussenegger/nvim-dap-python',
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -139,6 +141,22 @@ return {
     -- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     -- dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
+    require('dap-python').setup './.gerador-env/bin/python'
+    table.insert(dap.configurations.python, {
+      type = 'python',
+      request = 'launch',
+      name = 'My custom launch configuration',
+      program = '${file}',
+      cwd = '${workspaceFolder}/src',
+      pythonPath = function()
+        local venv = os.getenv 'VIRTUAL_ENV'
+        if venv then
+          return venv .. '/bin/python'
+        else
+          return 'python3'
+        end
+      end,
+    })
     -- Install golang specific config
     --    require('dap-go').setup {
     --    delve = {
