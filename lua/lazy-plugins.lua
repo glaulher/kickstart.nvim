@@ -1,3 +1,13 @@
+-- [[ Configure and install plugins ]]
+--
+--  To check the current status of your plugins, run
+--    :Lazy
+--
+--  You can press `?` in this menu for help. Use `:q` to close the window
+--
+--  To update plugins you can run
+--    :Lazy update
+--
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
@@ -7,54 +17,31 @@ require('lazy').setup({
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
   --
-  -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function,
-  -- forcing the plugin to be loaded.
-
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
-  --    require('gitsigns').setup({ ... })
+  -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function, forcing the plugin to be loaded.
   --
-  -- See `:help gitsigns` to understand what the configuration keys do
 
-  -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
-  --
-  -- This is often very useful to both group configuration, as well as handle
-  -- lazy loading plugins that don't need to be loaded immediately at startup.
-  --
-  -- For example, in the following configuration, we use:
-  --  event = 'VimEnter'
-  --
-  -- which loads which-key before all the UI elements are loaded. Events can be
-  -- normal autocommands events (`:help autocmd-events`).
-  --
-  -- Then, because we use the `opts` key (recommended), the configuration runs
-  -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
+  -- modular approach: using `require 'path.name'` will
+  -- include a plugin definition from file lua/path/name.lua
 
-  require 'core/plugins/gitsigns',
+  require 'kickstart.plugins.gitsigns',
 
-  require 'core/plugins/which-key',
+  require 'kickstart.plugins.which-key',
 
-  -- NOTE: Plugins can specify dependencies.
-  --
-  -- The dependencies are proper plugin specifications as well - anything
-  -- you do for a plugin at the top level, you can do for a dependency.
-  --
-  -- Use the `dependencies` key to specify the dependencies of a particular plugin
+  require 'kickstart.plugins.telescope',
 
-  require 'core/plugins/telescope',
+  require 'kickstart.plugins.lspconfig',
 
-  require 'core/plugins/lspconfig',
+  require 'kickstart.plugins.conform',
 
-  require 'core/plugins/autoformat-conform',
+  require 'kickstart.plugins.blink-cmp',
 
-  require 'core/plugins/blink-cmp',
+  require 'kickstart.plugins.tokyonight',
 
-  require 'core/plugins/theme',
+  require 'kickstart.plugins.todo-comments',
 
-  -- Highlight todo, notes, etc in comments
-  require 'core/plugins/todo-comments',
+  require 'kickstart.plugins.mini',
 
-  require 'core/plugins/mini',
+  require 'kickstart.plugins.treesitter',
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -67,18 +54,15 @@ require('lazy').setup({
   --
   require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
-  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   { import = 'custom.plugins' },
-
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
@@ -105,3 +89,5 @@ require('lazy').setup({
     },
   },
 })
+
+-- vim: ts=2 sts=2 sw=2 et

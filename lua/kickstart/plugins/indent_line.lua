@@ -1,10 +1,8 @@
 return {
   { -- Add indentation guides even on blank lines
-
+    'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl`
-
-    'lukas-reineke/indent-blankline.nvim', -- destaque de indentação colorido
     main = 'ibl',
     ---@module "ibl"
     ---@type ibl.config
@@ -51,4 +49,3 @@ return {
     end,
   },
 }
-
