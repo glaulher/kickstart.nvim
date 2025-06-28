@@ -1,6 +1,5 @@
 -- This is the same as in lspconfig.configs.jdtls, but avoids
 -- needing to require that when this module loads.
-local java_filetypes = { 'java' }
 local mason_registry = require 'mason-registry'
 
 -- Utility function to extend or override a config table, similar to the way
@@ -32,22 +31,11 @@ return {
   --add springboot
   {
     'JavaHello/spring-boot.nvim',
-    ft = { java_filetypes, 'yaml', 'jproperties' },
+    ft = { 'java', 'yaml', 'jproperties' },
     dependencies = {
       'mfussenegger/nvim-jdtls', -- or nvim-java, nvim-lspconfig
-      'nvim-telescope/telescope.nvim',
-      opts = function()
-        require('mason').setup()
-
-        if has_plugin 'mason-registry' then
-          mason_registry.refresh()
-        end
-        return {
-          java_cmd = vim.env.HOME .. '/usr/lib/jvm/java-21-openjdk-amd64/bin/java',
-        }
-      end, --- 可选，用于符号选择等UI功能。也可以使用其他选择器（例如 telescope.nvim）。
+      'nvim-telescope/telescope.nvim', -- optional, for UI features like symbol picking. Other pickers (e.g., telescope.nvim) can also be used.
     },
-    ---@diagnostic disable-next-line: undefined-doc-name
     ---@type bootls.Config
     ---@diagnostic disable-next-line: missing-fields
     opts = {},
@@ -114,7 +102,7 @@ return {
   {
     'mfussenegger/nvim-jdtls',
     dependencies = { 'folke/which-key.nvim' },
-    ft = java_filetypes,
+    ft = { 'java' },
     opts = function()
       --  local cmd = { vim.fn.exepath 'jdtls' }
       local lombok_jar = vim.fn.expand '$MASON' .. '/share/jdtls/lombok.jar'
@@ -263,7 +251,7 @@ return {
       -- depending on filetype, so this autocmd doesn't run for the first file.
       -- For that, we call directly below.
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = java_filetypes,
+        pattern = { 'java' },
         callback = attach_jdtls,
       })
 
