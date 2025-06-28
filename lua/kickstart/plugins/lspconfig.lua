@@ -344,6 +344,7 @@ return {
         'jdtls',
         'java-debug-adapter',
         'java-test',
+        'google-java-format',
         'sonarlint-language-server', -- Used to format java
         'prettier', -- Used to format javascript
         'typescript-language-server', -- Server to typescript and javascript
