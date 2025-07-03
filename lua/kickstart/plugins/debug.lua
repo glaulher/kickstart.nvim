@@ -30,28 +30,28 @@ return {
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
     {
-      '<F5>',
+      '<leader><F5>',
       function()
         require('dap').continue()
       end,
       desc = 'Debug: Start/Continue',
     },
     {
-      '<F10>',
+      '<leader><F10>',
       function()
         require('dap').step_into()
       end,
       desc = 'Debug: Step Into',
     },
     {
-      '<F11>',
+      '<leader><F11>',
       function()
         require('dap').step_over()
       end,
       desc = 'Debug: Step Over',
     },
     {
-      '<F12>',
+      '<leader><F12>',
       function()
         require('dap').step_out()
       end,
@@ -73,11 +73,19 @@ return {
     },
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     {
-      '<F7>',
+      '<leader><F7>',
       function()
         require('dapui').toggle()
       end,
       desc = 'Debug: See last session result.',
+    },
+
+    {
+      '<leader><F9>',
+      function()
+        require('dap').terminate()
+      end,
+      desc = 'Stop Debug',
     },
   },
   config = function()
@@ -116,11 +124,11 @@ return {
         icons = {
           pause = '⏸',
           play = '▶',
-          step_into = '⏎',
+          step_into = '⮐',
           step_over = '⏭',
           step_out = '⏮',
-          step_back = 'b',
-          run_last = '▶▶',
+          step_back = '⮑',
+          run_last = '󰑖',
           terminate = '⏹',
           disconnect = '⏏',
         },
