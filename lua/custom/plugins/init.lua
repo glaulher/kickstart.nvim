@@ -96,7 +96,7 @@ return {
     dependencies = {
       'javiorfo/nvim-popcorn',
       'javiorfo/nvim-spinetta',
-      'hrsh7th/nvim-cmp',
+      'saghen/blink.cmp',
     },
     build = function()
       require('springtime.core').update()
