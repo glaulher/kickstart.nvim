@@ -177,7 +177,7 @@ return {
 
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
-      -- configuration virtual_text like vscode errror lens
+      -- configuration virtual_text like vscode error lens
       local function set_virtual_text(enable)
         local diagnostic_icons = {
           [vim.diagnostic.severity.ERROR] = '󰅚 ',
@@ -211,7 +211,6 @@ return {
         }
       end
 
-      -- Autocommands para ativar/desativar virtual_text
       vim.api.nvim_create_autocmd('InsertEnter', {
         callback = function()
           set_virtual_text(true)
