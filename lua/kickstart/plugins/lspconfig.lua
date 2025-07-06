@@ -177,30 +177,32 @@ return {
 
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
-      -- configuration virtual_text like vscode error lens
+      local diagnostic_icons = {
+        [vim.diagnostic.severity.ERROR] = '󰅚 ',
+        [vim.diagnostic.severity.WARN] = '󰀪 ',
+        [vim.diagnostic.severity.INFO] = '󰋽 ',
+        [vim.diagnostic.severity.HINT] = '󰌶 ',
+      }
+
+      vim.diagnostic.config {
+        update_in_insert = true,
+        severity_sort = true,
+        float = { border = 'rounded', source = 'if_many' },
+        underline = true, -- { severity = vim.diagnostic.severity.ERROR }
+        signs = vim.g.have_nerd_font and { text = diagnostic_icons } or {},
+      }
+
+      -- Diagnostic configuration similar to VS Code's Error Lens.
+      -- In insert mode, diagnostics are displayed as inline virtual text.
+      -- In normal mode, diagnostics are shown as virtual lines below the affected lines.
+      ---@param enable boolean
       local function set_virtual_text(enable)
-        local diagnostic_icons = {
-          [vim.diagnostic.severity.ERROR] = '󰅚 ',
-          [vim.diagnostic.severity.WARN] = '󰀪 ',
-          [vim.diagnostic.severity.INFO] = '󰋽 ',
-          [vim.diagnostic.severity.HINT] = '󰌶 ',
-        }
-
         vim.diagnostic.config {
-          update_in_insert = true, -- error messages in insert mode
-          severity_sort = true,
-          float = { border = 'rounded', source = 'if_many' },
-          underline = { severity = vim.diagnostic.severity.ERROR },
-          signs = vim.g.have_nerd_font and {
-            text = diagnostic_icons,
-          } or {},
-
           virtual_lines = not enable and {
             format = function(diagnostic)
               return (diagnostic_icons[diagnostic.severity] or '') .. diagnostic.message
             end,
           } or false,
-
           virtual_text = enable and {
             source = 'if_many',
             spacing = 2,
@@ -210,6 +212,8 @@ return {
           } or false,
         }
       end
+
+      set_virtual_text(false)
 
       vim.api.nvim_create_autocmd('InsertEnter', {
         callback = function()
@@ -222,6 +226,7 @@ return {
           set_virtual_text(false)
         end,
       })
+
       vim.keymap.set('n', '<leader>df', function()
         vim.diagnostic.open_float(nil, { border = 'rounded', source = 'if_many' })
       end, { desc = 'Show Diagnostics in Floating Window' })
