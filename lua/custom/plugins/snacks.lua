@@ -38,6 +38,8 @@ return {
       picker = {},
       explorer = {},
       bigfile = {},
+      notify = {},
+      notifier = { enabled = false },
     },
 
     -- See `:help snacks-pickers-sources`
