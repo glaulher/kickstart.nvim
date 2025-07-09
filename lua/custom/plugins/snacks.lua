@@ -39,7 +39,7 @@ return {
       explorer = {},
       bigfile = {},
       notify = {},
-      notifier = { enabled = false },
+      -- notifier = { enabled = true },
     },
 
     -- See `:help snacks-pickers-sources`
