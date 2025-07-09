@@ -36,10 +36,20 @@ return {
     ---@type snacks.Config
     opts = {
       picker = {},
+      explorer = {},
+      bigfile = {},
     },
 
     -- See `:help snacks-pickers-sources`
     keys = {
+      {
+        '<leader>e',
+        function()
+          Snacks.explorer()
+        end,
+        desc = 'Snacks File Explorer',
+      },
+
       {
         '<leader>sh',
         function()
