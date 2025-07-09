@@ -194,7 +194,10 @@ return {
       end
       if has_plugin 'spring_boot' then
         vim.api.nvim_create_user_command('SpringBootSymbols', function(_)
-          require('telescope.builtin').lsp_workspace_symbols {}
+          --  require('telescope.builtin').lsp_workspace_symbols {}
+
+          ---@diagnostic disable-next-line: undefined-global
+          Snacks.picker.lsp_workspace_symbols()
         end, { nargs = 0 })
 
         local spring_boot = require 'spring_boot'
