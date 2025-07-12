@@ -38,8 +38,7 @@ return {
       picker = {},
       explorer = {},
       bigfile = {},
-      notify = {},
-      -- notifier = { enabled = true },
+      notifier = { enabled = true },
     },
 
     -- See `:help snacks-pickers-sources`
@@ -146,6 +145,30 @@ return {
         desc = '[S]earch [N]eovim files',
       },
     },
+
+    config = function(_, opts)
+      local notify = vim.notify
+      require('snacks').setup(opts)
+      -- HACK: restore vim.notify after snacks setup and let noice.nvim take over
+      -- this is needed to have early notifications show up in noice history
+      if pcall(require, 'noice') then
+        vim.notify = notify
+      end
+
+      -- vim.api.nvim_create_autocmd('LspProgress', {
+      --   ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+      --   callback = function(ev)
+      --     local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
+      --     vim.notify(vim.lsp.status(), 'info', {
+      --       id = 'lsp_progress',
+      --       title = 'LSP Progress',
+      --       opts = function(notif)
+      --         notif.icon = ev.data.params.value.kind == 'end' and ' ' or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+      --       end,
+      --     })
+      --   end,
+      -- })
+    end,
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
