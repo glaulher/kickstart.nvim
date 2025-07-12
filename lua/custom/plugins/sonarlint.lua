@@ -6,7 +6,7 @@ return {
   dependencies = {
     'neovim/nvim-lspconfig',
   },
-  opts = function()
+  config = function()
     require('sonarlint').setup {
       server = {
         cmd = {
@@ -21,7 +21,10 @@ return {
         },
       },
       filetypes = {
-        --  'python',
+        -- Tested and working
+        'cs',
+        'dockerfile',
+        -- "python",
         'cpp',
         'java',
       },
