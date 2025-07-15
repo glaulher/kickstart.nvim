@@ -221,7 +221,8 @@ return {
         end,
       })
 
-      vim.api.nvim_create_autocmd('InsertLeave', {
+      vim.api.nvim_create_autocmd('ModeChanged', {
+        pattern = 'i:*',
         callback = function()
           set_virtual_text(false)
         end,
