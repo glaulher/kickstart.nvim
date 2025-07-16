@@ -169,6 +169,8 @@ return {
       --   end,
       -- })
 
+      -- [[ Configure shortcuts Snacks Pickers ]]
+      -- See `:help snacks-picker` and `:help snacks-picker-setup`
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('snacks-lsp-attach', { clear = true }),
         callback = function(event)
