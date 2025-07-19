@@ -162,7 +162,7 @@ return {
       vim.diagnostic.config {
         update_in_insert = true,
         severity_sort = true,
-        float = { border = 'rounded', source = 'if_many' },
+        -- float = { border = 'rounded', source = 'if_many' },
         underline = true, -- { severity = vim.diagnostic.severity.ERROR }
         signs = vim.g.have_nerd_font and { text = diagnostic_icons } or {},
       }
@@ -173,11 +173,11 @@ return {
       ---@param enable boolean
       local function set_virtual_text(enable)
         vim.diagnostic.config {
-          virtual_lines = not enable and {
-            format = function(diagnostic)
-              return (diagnostic_icons[diagnostic.severity] or '') .. diagnostic.message
-            end,
-          } or false,
+          -- virtual_lines = not enable and {
+          --   format = function(diagnostic)
+          --     return (diagnostic_icons[diagnostic.severity] or '') .. diagnostic.message
+          --   end,
+          -- } or false,
           virtual_text = enable and {
             source = 'if_many',
             spacing = 2,
@@ -203,17 +203,23 @@ return {
         end,
       })
 
+      vim.api.nvim_create_autocmd('CursorHold', {
+        callback = function()
+          vim.diagnostic.open_float(nil, { focusable = false, source = 'if_many', border = 'rounded' })
+        end,
+      })
+
       vim.keymap.set('n', '<leader>df', function()
         vim.diagnostic.open_float(nil, { border = 'rounded', source = 'if_many' })
-      end, { desc = 'Show Diagnostics in Floating Window' })
+      end, { desc = 'Enter Diagnostics in Floating Window' })
 
-      vim.keymap.set('n', '<leader>dc', function()
-        for _, win in pairs(vim.api.nvim_list_wins()) do
-          if vim.api.nvim_win_get_config(win).relative ~= '' then
-            vim.api.nvim_win_close(win, false)
-          end
-        end
-      end, { desc = 'Close floating diagnostics window' })
+      -- vim.keymap.set('n', '<leader>dc', function()
+      --   for _, win in pairs(vim.api.nvim_list_wins()) do
+      --     if vim.api.nvim_win_get_config(win).relative ~= '' then
+      --       vim.api.nvim_win_close(win, false)
+      --     end
+      --   end
+      -- end, { desc = 'Close floating diagnostics window' })
 
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
