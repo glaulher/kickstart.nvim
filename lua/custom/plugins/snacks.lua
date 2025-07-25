@@ -44,6 +44,15 @@ return {
     -- See `:help snacks-pickers-sources`
     keys = {
       {
+        '<leader>x',
+        function()
+          ---@type fun(buf?: number|snacks.bufdelete.Opts)
+          Snacks.bufdelete()
+        end,
+        desc = 'delete buffer',
+      },
+
+      {
         '<leader>e',
         function()
           local explorer_win = nil
