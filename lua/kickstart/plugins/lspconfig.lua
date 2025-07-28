@@ -353,6 +353,7 @@ return {
         'prettier', -- Used to format javascript
         'typescript-language-server', -- Server to typescript and javascript
         'debugpy', -- Python-dap
+        'xmlformat',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
