@@ -272,6 +272,11 @@ return {
           root_dir = require('lspconfig').util.root_pattern('tsconfig.json', 'jsconfig.json', 'package.json', '.git'),
           init_options = {
             hostInfo = 'neovim',
+            preferences = {
+              includeCompletionsForModuleExports = true,
+              includeCompletionsForImportStatements = true,
+              importModuleSpecifierPreference = 'relative',
+            },
           },
           settings = {
             javascript = {
