@@ -102,6 +102,7 @@ return {
       require('springtime.core').update()
     end,
   },
+  { import = 'custom.plugins.lang' },
 }
 --  (Código Unicode: U+F51E)
 --  (Código Unicode: U+F668)

@@ -266,27 +266,27 @@ return {
         },
 
         --  But for many setups, the LSP (`ts_ls`) will work just fine
-        ts_ls = {
-          cmd = { 'typescript-language-server', '--stdio' },
-          filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'typescript.tsx' },
-          root_dir = require('lspconfig').util.root_pattern('tsconfig.json', 'jsconfig.json', 'package.json', '.git'),
-          init_options = {
-            hostInfo = 'neovim',
-            preferences = {
-              includeCompletionsForModuleExports = true,
-              includeCompletionsForImportStatements = true,
-              importModuleSpecifierPreference = 'relative',
-            },
-          },
-          settings = {
-            javascript = {
-              -- Também ajusta opções de JavaScript, se necessário
-              compilerOptions = {
-                checkJs = false,
-              },
-            },
-          },
-        },
+        -- ts_ls = {
+        --   cmd = { 'typescript-language-server', '--stdio' },
+        --   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'typescript.tsx' },
+        --   root_dir = require('lspconfig').util.root_pattern('tsconfig.json', 'jsconfig.json', 'package.json', '.git'),
+        --   init_options = {
+        --     hostInfo = 'neovim',
+        --     preferences = {
+        --       includeCompletionsForModuleExports = true,
+        --       includeCompletionsForImportStatements = true,
+        --       importModuleSpecifierPreference = 'relative',
+        --     },
+        --   },
+        --   settings = {
+        --     javascript = {
+        --       -- Também ajusta opções de JavaScript, se necessário
+        --       compilerOptions = {
+        --         checkJs = false,
+        --       },
+        --     },
+        --   },
+        -- },
 
         tailwindcss = {
           cmd = { 'tailwindcss-language-server', '--stdio' },
@@ -356,9 +356,11 @@ return {
         'google-java-format',
         'sonarlint-language-server', -- Used to format java
         'prettier', -- Used to format javascript
-        'typescript-language-server', -- Server to typescript and javascript
+        'vtsls', -- Server to typescript and javascript
+        'js-debug-adapter',
         'debugpy', -- Python-dap
         'xmlformatter',
+        'jsonls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
