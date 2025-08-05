@@ -173,11 +173,11 @@ return {
       ---@param enable boolean
       local function set_virtual_text(enable)
         vim.diagnostic.config {
-          -- virtual_lines = not enable and {
-          --   format = function(diagnostic)
-          --     return (diagnostic_icons[diagnostic.severity] or '') .. diagnostic.message
-          --   end,
-          -- } or false,
+          virtual_lines = not enable and {
+            format = function(diagnostic)
+              return (diagnostic_icons[diagnostic.severity] or '') .. diagnostic.message
+            end,
+          } or false,
           virtual_text = enable and {
             source = 'if_many',
             spacing = 2,
@@ -190,36 +190,52 @@ return {
 
       set_virtual_text(false)
 
+      local function disable_virtual_lines(enable)
+        if enable then
+          set_virtual_text(true)
+        else
+          set_virtual_text(false)
+          vim.api.nvim_create_autocmd('ModeChanged', {
+            pattern = 'i:*',
+            callback = function()
+              set_virtual_text(false)
+            end,
+          })
+        end
+      end
+      disable_virtual_lines(true)
+
+      vim.keymap.set('n', '<leader>dv', function()
+        disable_virtual_lines(false)
+      end, { desc = 'Enable virtual lines for diagnostics' })
+
+      vim.keymap.set('n', '<leader>dt', function()
+        disable_virtual_lines(true)
+      end, { desc = 'Disable virtual lines for diagnostics' })
+
       vim.api.nvim_create_autocmd('InsertEnter', {
         callback = function()
           set_virtual_text(true)
         end,
       })
 
-      vim.api.nvim_create_autocmd('ModeChanged', {
-        pattern = 'i:*',
-        callback = function()
-          set_virtual_text(false)
-        end,
-      })
-
-      vim.api.nvim_create_autocmd('CursorHold', {
-        callback = function()
-          vim.diagnostic.open_float(nil, { focusable = false, source = 'if_many', border = 'rounded' })
-        end,
-      })
+      -- vim.api.nvim_create_autocmd('CursorHold', {
+      --   callback = function()
+      --     vim.diagnostic.open_float(nil, { focusable = false, source = 'if_many', border = 'rounded' })
+      --   end,
+      -- })
 
       vim.keymap.set('n', '<leader>df', function()
         vim.diagnostic.open_float(nil, { border = 'rounded', source = 'if_many' })
       end, { desc = 'Enter Diagnostics in Floating Window' })
 
-      -- vim.keymap.set('n', '<leader>dc', function()
-      --   for _, win in pairs(vim.api.nvim_list_wins()) do
-      --     if vim.api.nvim_win_get_config(win).relative ~= '' then
-      --       vim.api.nvim_win_close(win, false)
-      --     end
-      --   end
-      -- end, { desc = 'Close floating diagnostics window' })
+      vim.keymap.set('n', '<leader>dc', function()
+        for _, win in pairs(vim.api.nvim_list_wins()) do
+          if vim.api.nvim_win_get_config(win).relative ~= '' then
+            vim.api.nvim_win_close(win, false)
+          end
+        end
+      end, { desc = 'Close floating diagnostics window' })
 
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
