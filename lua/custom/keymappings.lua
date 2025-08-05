@@ -1,8 +1,10 @@
 -- Define os mapeamentos personalizados
-local keymap = vim.api.nvim_set_keymap
+local keymap = vim.keymap.set
 
 -- Opções padrão (sem noremap, com silent)
 local opts = { noremap = true, silent = true }
+
+keymap('n', '<leader>lr', '<cmd>LspRestart<CR>', { desc = 'LSP Restart' })
 
 -- Movimentar a linha inteira
 -- Mapeamentos em modo Insert (insert_mode)
