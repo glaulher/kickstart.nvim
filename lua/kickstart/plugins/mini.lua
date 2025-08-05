@@ -63,7 +63,7 @@ return {
             local diff = MiniStatusline.section_diff { trunc_width = 75 }
             local diagnostics = MiniStatusline.section_diagnostics { trunc_width = 75 }
             local lsp = MiniStatusline.section_lsp { trunc_width = 120 }
-            local filename = MiniStatusline.section_filename { trunc_width = 120 }
+            local filename = MiniStatusline.section_filename { trunc_width = 80 }
             local fileinfo = MiniStatusline.section_fileinfo { trunc_width = 100 }
             local location = MiniStatusline.section_location { trunc_width = 75 }
             local search = MiniStatusline.section_searchcount { trunc_width = 75 }
